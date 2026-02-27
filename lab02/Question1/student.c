@@ -30,30 +30,44 @@
 #include <string.h>  // strlen
 
 bool isValid(const char *s) {
-    // TODO: Implement using a stack.
-    //
-    // Recommended approach:
-    // - Use a char array as a stack to store opening brackets.
-    // - Scan the string from left to right:
-    //   - If you see an opening bracket, push it.
-    //   - If you see a closing bracket:
-    //       * stack must not be empty
-    //       * top of stack must match the closing bracket type
-    //       * then pop
-    // - At the end, stack must be empty.
-    //
-    // Helpful matching pairs:
-    //   ')' matches '('
-    //   ']' matches '['
-    //   '}' matches '{'
-    //
-    // Corner cases:
-    // - s == NULL -> return false
-    // - odd length strings can’t be valid 
-    //
-    // Note:
-    // - Input contains only bracket characters, per the prompt.
-    int i =0;
-    (void)s; // remove after implementing
-    return false; // placeholder
+   
+    if (s == NULL) {
+        return false; 
+    }
+
+    size_t len = strlen(s);
+    
+    if (len % 2 != 0) {
+        return false; // Odd length cannot be valid
+    }
+    if (len == 0) {
+        return true; // Empty string is valid
+    }
+
+    char stack[len]; // Stack to hold opening brackets
+    int top = -1; // Stack pointer
+
+    for (size_t i = 0; i < len; i++) {
+        char c = s[i];
+        if (c == '(' || c == '{' || c == '[') {
+            stack[++top] = c; // Push opening bracket onto stack
+        } 
+        else if (c == ')' || c == '}' || c == ']') {
+            if (top == -1) {
+                return false; // No matching opening bracket
+            }
+            char topChar = stack[top]; // Pop from stack
+            if ((c == ')' && topChar != '(') ||
+                (c == '}' && topChar != '{') ||
+                (c == ']' && topChar != '[')) {
+                return false; // Mismatched brackets
+            }
+
+            top--;
+
+        }
+
+    }
+                
+    return top == -1; // If stack is empty, string is valid
 }

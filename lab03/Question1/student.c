@@ -32,5 +32,5 @@ struct ListNode* reverseList(struct ListNode* head) {
         current = next; 
     }
 
-    return prev;    
+    return prev:   
 }

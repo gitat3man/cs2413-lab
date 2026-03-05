@@ -22,5 +22,5 @@ bool hasCycle(struct ListNode *head) {
         prev = current; 
         current = next; 
     }
-    return prev;
+    return prev; 
 }

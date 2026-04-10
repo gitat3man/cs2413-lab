@@ -46,8 +46,37 @@ static void heapifyDown(int* heap, int size, int index);
 Return the kth largest element in nums.
 */
 int findKthLargest(int* nums, int numsSize, int k) {
-    /* Write your code here */
-    return 0;
+    int* heap = (int*)malloc(k * sizeof(int));
+    if (heap == NULL) {
+        return -1;
+    }
+    int heapSize = 0;
+
+    for (int i = 0; i < numsSize; i++) {
+        if (heapSize < k) {
+            heap[heapSize] = nums[i];
+            heapSize++;
+            int index = heapSize - 1;
+            while (index > 0) {
+                int parentIndex = (index - 1) / 2;
+                if (heap[index] < heap[parentIndex]) {
+                    int temp = heap[index];
+                    heap[index] = heap[parentIndex];
+                    heap[parentIndex] = temp;
+                    index = parentIndex;
+                } else {
+                    break;
+                }
+            }
+        } else if (nums[i] > heap[0]) {
+            heap[0] = nums[i];
+            heapifyDown(heap, heapSize, 0);
+        }
+    }
+    
+    int result = heap[0];
+    free(heap);
+    return result;
 }
 
 /*
